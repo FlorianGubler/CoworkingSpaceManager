@@ -1,0 +1,23 @@
+@startuml
+left to right direction
+actor Gast
+actor Mitglied
+actor Administrator
+rectangle "Coworkspace API"{
+    Gast --> (Registrieren)
+    Gast --> (Login)
+
+    Mitglied --> (Buchung erstellen)
+    Mitglied --> (Eigene Buchungen überprüfen)
+    Mitglied --> (Alle Buchungen ansehen) : ANONYM
+    Mitglied --> (Buchung stornieren)
+
+    (Alle Buchungen ansehen) <-- Administrator : NICHT ANONYM
+    (Mitglieder verwalten) <-- Administrator
+    (Buchungen verwalten) <-- Administrator
+    (Buchungsanfragen ansehen) <-- Administrator
+    (Buchungsanfragen bearbeiten) <-- Administrator
+
+    (Buchung erstellen) .> (Buchungsanfragen bearbeiten) :include
+}
+@enduml

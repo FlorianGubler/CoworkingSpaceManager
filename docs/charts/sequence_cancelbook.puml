@@ -1,0 +1,18 @@
+@startuml
+Client -> Server: Request with JWT: /api/booking/cancel/{bookingid}
+Server -> Server: Verify JWT Authentication
+alt JWT verified
+    Server -> Datenbank: findbyId(bookingid)
+    Datenbank --> Server: Return Booking
+    alt Booking found
+        Server -> Server: Set Bookingstatus\n to CANCELED
+        Server -> Datenbank: Save Updated Booking
+        Datenbank --> Server: Update Sucessfull
+        Server --> Client: 200 OK
+    else Booking not found
+        Server --> Client: 404 NOT FOUND
+    end
+else JWT invalid
+    Server -> Client: 401 - UNAUTHORIZIZED
+end
+@enduml

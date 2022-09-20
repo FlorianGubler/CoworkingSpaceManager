@@ -1,0 +1,29 @@
+@startuml
+class Booking{
+    UUID id
+    Member user
+    Date date
+    BookingTime time
+    BookingStatus status
+}
+class Member{
+    UUID id
+    String email
+    String firstname
+    String lastname
+    String password
+}
+enum BookingStatus{
+    OPEN
+    APPROVED
+    DECLINED
+}
+enum BookingTime{
+    MORNING
+    AFTERNOON
+    DAY
+}
+Booking *-- Member
+Booking *-- BookingStatus
+Booking *-- BookingTime
+@enduml
