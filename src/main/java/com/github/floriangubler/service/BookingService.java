@@ -2,7 +2,6 @@ package com.github.floriangubler.service;
 
 import com.github.floriangubler.exception.BookingNotFoundException;
 import com.github.floriangubler.model.BookingEntity;
-import com.github.floriangubler.model.BookingStatus;
 import com.github.floriangubler.repository.BookingRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -42,22 +41,18 @@ public class BookingService {
         return result;
     }
 
-    public Optional<BookingEntity> loadOne(UUID gameId) {
-        log.info("Executing find game with id " + gameId + " ...");
-        return repository.findById(gameId);
+    public BookingEntity create(BookingEntity booking) {
+        log.info("Executing create booking with id " + booking.getId() + " ...");
+        return repository.save(booking);
     }
 
-    public BookingEntity create(BookingEntity booking, BookingStatus status) {
-        log.info("Executing create game with id " + booking.getId() + " ...");
-        return repository.save(game);
-    }
-
-    public BookingEntity update(BookingEntity updatedGame, BookingEntity bookingid) {
-        if(repository.findById(updatedGame.getId()).isPresent()){
-            log.info("Executing update game with id " + updatedGame.getId() + " ...");
-            return repository.save(updatedGame);
+    public BookingEntity update(BookingEntity updatedBooking, UUID bookingid) {
+        if(repository.findById(bookingid).isPresent()){
+            log.info("Executing update booking with id " + bookingid + " ...");
+            updatedBooking.setId(bookingid);
+            return repository.save(updatedBooking);
         } else{
-            throw new IllegalArgumentException("Object with given id not found");
+            throw new BookingNotFoundException("Booking with given id not found");
         }
     }
 

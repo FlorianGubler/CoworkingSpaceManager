@@ -1,5 +1,5 @@
 @startuml
-Client -> Server: Request with JWT: /api/booking/cancel/{bookingid}
+Client -> Server: JWT Request: /api/bookings/{bookingid}
 Server -> Server: Verify JWT Authentication
 alt JWT verified
     Server -> Datenbank: findbyId(bookingid)

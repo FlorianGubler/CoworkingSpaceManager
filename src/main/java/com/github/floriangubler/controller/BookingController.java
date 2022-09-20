@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +26,7 @@ import java.util.stream.Collectors;
 public class BookingController {
 
     private final BookingService bookingService;
-    private final String ADMINROLE = "ROLE_ADMIN";
+    private final static String ADMINROLE = "ROLE_ADMIN";
 
     BookingController(BookingService bookingService) {
         this.bookingService = bookingService;
@@ -80,69 +81,34 @@ public class BookingController {
             @RequestBody(required = true)
             BookingEntity booking,
             Authentication authentication) {
-        BookingStatus status = BookingStatus.ORDERED;
         if(getRolesSet(authentication).contains(ADMINROLE)){
-            status = BookingStatus.APPROVED;
+            booking.setStatus(BookingStatus.APPROVED);
+        } else{
+            booking.setStatus(BookingStatus.ORDERED);
         }
-        return bookingService.create(booking, status);
+        return bookingService.create(booking);
     }
 
     @Operation(
-            summary = "",
-            description = "",
+            summary = "Update Booking",
+            description = "Update a Booking (Only Admin)",
             security = {@SecurityRequirement(name = "JWT Auth")}
     )
     @PutMapping("/{bookingid}")
-    BookingEntity updatebooking(
+    @PreAuthorize("hasRole(ADMINROLE)")
+    ResponseEntity<BookingEntity> updatebooking(
             @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Booking Update", required = true)
             @RequestBody(required = true)
             BookingEntity booking,
+            @Parameter(description = "BookingID", required = true)
             @RequestParam(name="bookingid", required = true)
-            BookingEntity bookingid,
+            UUID bookingid,
             Authentication authentication) {
-        return bookingService.update(booking, bookingid);
-    }
-
-    @Operation(
-            summary = "",
-            description = "",
-            security = {@SecurityRequirement(name = "JWT Auth")}
-    )
-    @PostMapping("/")
-    ResponseEntity<BookingEntity> test(
-            @Parameter(description = "BookingID", required = true)
-            @RequestParam(name = "bookingid", required = true)
-            BookingEntity bookingid,
-            Authentication authentication) {
-        return null;
-    }
-
-    @Operation(
-            summary = "",
-            description = "",
-            security = {@SecurityRequirement(name = "JWT Auth")}
-    )
-    @PostMapping("/")
-    ResponseEntity<BookingEntity> test(
-            @Parameter(description = "BookingID", required = true)
-            @RequestParam(name = "bookingid", required = true)
-            BookingEntity bookingid,
-            Authentication authentication) {
-        return null;
-    }
-
-    @Operation(
-            summary = "",
-            description = "",
-            security = {@SecurityRequirement(name = "JWT Auth")}
-    )
-    @PostMapping("/")
-    ResponseEntity<BookingEntity> test(
-            @Parameter(description = "BookingID", required = true)
-            @RequestParam(name = "bookingid", required = true)
-            BookingEntity bookingid,
-            Authentication authentication) {
-        return null;
+        try{
+            return new ResponseEntity<>(bookingService.update(booking, bookingid), HttpStatus.OK);
+        } catch(BookingNotFoundException e){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     //Get Roles as String Set
