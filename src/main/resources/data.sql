@@ -1,6 +1,6 @@
-INSERT INTO MEMBER (id, email, firstname, lastname, password_hash, is_admin)
+INSERT INTO MEMBER (id, email, firstname, lastname, password, is_admin)
 VALUES ('9135f12e-1b66-4ee6-bbae-df37303cc154', 'admin@test.ch', 'Admin', 'User', '$2a$10$aDD6I9Ej5.W8busvlsdPx.JvMWyJX8cOeOfVb.3q73KH2swww/N9C', true); -- Password: password1234
-INSERT INTO MEMBER (id, email, firstname, lastname, password_hash, is_admin)
+INSERT INTO MEMBER (id, email, firstname, lastname, password, is_admin)
 VALUES ('9135f11e-1b66-4ee6-bbae-df37303cc154', 'user@test.ch', 'User', 'Account', '$2a$10$aDD6I9Ej5.W8busvlsdPx.JvMWyJX8cOeOfVb.3q73KH2swww/N9C', false); -- Password: password1234
 
 INSERT INTO BOOKING (id, member, date, time, status)

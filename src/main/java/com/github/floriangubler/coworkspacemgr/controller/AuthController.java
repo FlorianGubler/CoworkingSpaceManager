@@ -14,10 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCrypt;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
@@ -70,7 +67,7 @@ public class AuthController {
                     throw new IllegalArgumentException("Username or password wrong");
                 }
 
-                if (!BCrypt.checkpw(password, optionalMember.get().getPasswordHash())) {
+                if (!BCrypt.checkpw(password, optionalMember.get().getPassword())) {
                     throw new IllegalArgumentException("Username or password wrong");
                 }
 
@@ -121,25 +118,17 @@ public class AuthController {
     )
     @PostMapping(value = "/register", produces = "application/json")
     public ResponseEntity<TokenResponse> register(
-            @Parameter(description = "Username / E-Mail", required = true)
-            @RequestParam(name = "email", required = true)
-            String email,
-            @Parameter(description = "Vorname", required = true)
-            @RequestParam(name = "firstname", required = true)
-            String firstname,
-            @Parameter(description = "Nachname", required = true)
-            @RequestParam(name = "lastname", required = true)
-            String lastname,
-            @Parameter(description = "Password", required = true)
-            @RequestParam(name = "password", required = true)
-            String password
+            @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Member", required = true)
+            @RequestBody(required = true)
+            MemberEntity member
     ) throws GeneralSecurityException, IOException {
-        String passwordHash = BCrypt.hashpw(password, BCrypt.gensalt());
+        //member.getPassword() isn't hashed yet
+        String passwordHash = BCrypt.hashpw(member.getPassword(), BCrypt.gensalt());
         try{
-            memberService.create(new MemberEntity(UUID.randomUUID(), email, firstname, lastname, passwordHash, false));
+            memberService.create(new MemberEntity(UUID.randomUUID(), member.getEmail(), member.getFirstname(), member.getLastname(), passwordHash, false));
         } catch(UserAlreadyExistsException e){
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
-        return new ResponseEntity<>(getToken("password", "", email, password), HttpStatus.OK);
+        return new ResponseEntity<>(getToken("password", "", member.getEmail(), member.getPassword()), HttpStatus.OK);
     }
 }

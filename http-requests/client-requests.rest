@@ -59,7 +59,7 @@ Content-Type: application/json
     "email": "string",
     "firstname": "string",
     "lastname": "string",
-    "passwordHash": "string",
+    "password": "string",
     "isAdmin": true
   },
   "date": "2022-09-21T06:31:54.404Z",

@@ -9,6 +9,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Objects;
 import java.util.UUID;
@@ -29,16 +30,20 @@ public class MemberEntity implements Serializable {
     UUID id = UUID.randomUUID();
 
     @Column(name = "email", nullable = false)
+    @NotNull
     String email;
 
     @Column(name = "firstname", nullable = false)
+    @NotNull
     String firstname;
 
     @Column(name = "lastname", nullable = false)
+    @NotNull
     String lastname;
 
-    @Column(name = "password_hash", nullable = false)
-    String passwordHash;
+    @Column(name = "password", nullable = false)
+    @NotNull
+    String password;
 
     @Column(name = "is_admin", nullable = false)
     Boolean isAdmin = false;
@@ -50,7 +55,7 @@ public class MemberEntity implements Serializable {
         MemberEntity that = (MemberEntity) o;
         return id != null && Objects.equals(id, that.id) &&
                 email != null && Objects.equals(email, that.email) &&
-                passwordHash != null && Objects.equals(passwordHash, that.passwordHash);
+                password != null && Objects.equals(password, that.password);
     }
 
     @Override
