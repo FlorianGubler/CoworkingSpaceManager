@@ -1,5 +1,6 @@
 package com.github.floriangubler.coworkspacemgr.service;
 
+import com.github.floriangubler.coworkspacemgr.exception.UserAlreadyExistsException;
 import com.github.floriangubler.coworkspacemgr.exception.UserNotFoundException;
 import com.github.floriangubler.coworkspacemgr.entity.MemberEntity;
 import com.github.floriangubler.coworkspacemgr.repository.MemberRepository;
@@ -24,6 +25,14 @@ public class MemberService {
         return repository.findAll();
     }
 
+    public MemberEntity create(MemberEntity member){
+        if(repository.findByEmail(member.getEmail()).isEmpty()){
+            log.info("Executing update user with id " + member.getId() + " ...");
+            return repository.save(member);
+        } else{
+            throw new UserAlreadyExistsException("Member with email '" + member.getEmail() + "' already exists");
+        }
+    }
     public MemberEntity update(MemberEntity member, UUID memberid){
         if(repository.findById(memberid).isPresent()){
             log.info("Executing update user with id " + memberid + " ...");

@@ -1,5 +1,7 @@
 package com.github.floriangubler.coworkspacemgr.controller;
 
+import com.github.floriangubler.coworkspacemgr.exception.UserAlreadyExistsException;
+import com.github.floriangubler.coworkspacemgr.service.MemberService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -9,6 +11,8 @@ import com.github.floriangubler.coworkspacemgr.repository.MemberRepository;
 import com.github.floriangubler.coworkspacemgr.security.JwtServiceHMAC;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,6 +35,9 @@ public class AuthController {
 
     @Autowired
     private MemberRepository memberRepository;
+
+    @Autowired
+    MemberService memberService;
 
     @Operation(
             summary = "Get new token",
@@ -113,7 +120,7 @@ public class AuthController {
             tags = {"Authorization"}
     )
     @PostMapping(value = "/register", produces = "application/json")
-    public TokenResponse register(
+    public ResponseEntity<TokenResponse> register(
             @Parameter(description = "Username / E-Mail", required = true)
             @RequestParam(name = "email", required = true)
             String email,
@@ -128,8 +135,11 @@ public class AuthController {
             String password
     ) throws GeneralSecurityException, IOException {
         String passwordHash = BCrypt.hashpw(password, BCrypt.gensalt());
-        val newMember = new MemberEntity(UUID.randomUUID(), email, firstname, lastname, passwordHash, false);
-        memberRepository.save(newMember);
-        return getToken("password", "", email, password);
+        try{
+            memberService.create(new MemberEntity(UUID.randomUUID(), email, firstname, lastname, passwordHash, false));
+        } catch(UserAlreadyExistsException e){
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+        return new ResponseEntity<>(getToken("password", "", email, password), HttpStatus.OK);
     }
 }

@@ -10,7 +10,6 @@ import java.util.UUID;
 public interface BookingRepository extends JpaRepository<BookingEntity, UUID> {
     List<BookingEntity> findAll();
 
-    //TODO
     @Query("SELECT b from BOOKING b where b.member.id = :memberId")
     List<BookingEntity> findAllByMemberId(UUID memberId);
 }

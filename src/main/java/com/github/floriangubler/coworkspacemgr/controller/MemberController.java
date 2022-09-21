@@ -82,9 +82,4 @@ public class MemberController {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
     }
-
-    //Get Roles as String Set
-    private Set<String> getRolesSet(Authentication authentication){
-        return authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toSet());
-    }
 }

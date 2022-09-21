@@ -15,6 +15,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.web.bind.annotation.*;
 
+import javax.naming.NoPermissionException;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -66,6 +67,8 @@ public class BookingController {
             bookingService.delete(bookingid, authentication);
         } catch(BookingNotFoundException e){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (NoPermissionException e){
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

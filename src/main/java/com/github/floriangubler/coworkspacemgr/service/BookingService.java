@@ -1,5 +1,6 @@
 package com.github.floriangubler.coworkspacemgr.service;
 
+import com.github.floriangubler.coworkspacemgr.exception.BookingAlreadyExistsException;
 import com.github.floriangubler.coworkspacemgr.exception.BookingNotFoundException;
 import com.github.floriangubler.coworkspacemgr.entity.BookingEntity;
 import com.github.floriangubler.coworkspacemgr.repository.BookingRepository;
@@ -8,6 +9,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 
+import javax.naming.NoPermissionException;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -45,7 +47,11 @@ public class BookingService {
 
     public BookingEntity create(BookingEntity booking) {
         log.info("Executing create booking with id " + booking.getId() + " ...");
-        return repository.save(booking);
+        if(repository.findById(booking.getId()).isEmpty()){
+            return repository.save(booking);
+        } else{
+            throw new BookingAlreadyExistsException("Booking with Id " + booking.getId() + " already exists");
+        }
     }
 
     public BookingEntity update(BookingEntity updatedBooking, UUID bookingid) {
@@ -58,13 +64,15 @@ public class BookingService {
         }
     }
 
-    public void delete(UUID bookingid, Authentication authentication) {
+    public void delete(UUID bookingid, Authentication authentication) throws NoPermissionException {
         Optional<BookingEntity> delbooking = repository.findById(bookingid);
         if(delbooking.isPresent()){
             //Auth User is owner of Booking or is Admin
             if(delbooking.get().getMember().getId().equals(UUID.fromString(authentication.getName())) || authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toSet()).contains(ADMINROLE)){
                 log.info("Executing delete Booking with id " + bookingid + " ...");
                 repository.deleteById(bookingid);
+            } else{
+                throw new NoPermissionException("No Permission to delete other bookings");
             }
         } else{
             throw new BookingNotFoundException("Requested Booking to delete not found");

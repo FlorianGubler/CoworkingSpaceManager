@@ -10,7 +10,7 @@ import java.util.UUID;
 public interface MemberRepository extends CrudRepository<MemberEntity, UUID> {
     List<MemberEntity> findAll();
 
-    Optional<MemberEntity> findByEmail(String username);
+    Optional<MemberEntity> findByEmail(String email);
 
     void deleteById(UUID memberid);
 }

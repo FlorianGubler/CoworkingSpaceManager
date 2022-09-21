@@ -1,5 +1,6 @@
 package com.github.floriangubler.coworkspacemgr.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +34,11 @@ public class BookingEntity implements Serializable {
     @JoinColumn(name = "member", nullable = false)
     @Schema(accessMode = Schema.AccessMode.READ_ONLY)
     private MemberEntity member;
+
+    @Transient
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @Schema(accessMode = Schema.AccessMode.WRITE_ONLY)
+    private UUID memberId;
 
     @Column(name = "date", nullable = false)
     private Date date;
