@@ -2,14 +2,18 @@ package com.github.floriangubler.coworkspacemgr;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.floriangubler.coworkspacemgr.entity.BookingEntityReq;
 import com.github.floriangubler.coworkspacemgr.entity.MemberDTO;
 import com.github.floriangubler.coworkspacemgr.entity.TokenResponse;
+import lombok.val;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -67,6 +71,26 @@ public class CoworkspaceUserIntegrationTest {
 
 		mockMvc.perform(post("/api/auth/token?grant_type=refresh_token&refresh_token="+ REFRESHTOKEN))
 				.andExpect(status().isOk())
+				.andDo(print())
+				.andReturn();
+	}
+
+	@Test
+	@Order(4)
+	public void getbookingserror() throws Exception {
+
+		val response = mockMvc.perform(get("/api/bookings"))
+				.andExpect(status().isUnauthorized())
+				.andDo(print())
+				.andReturn();
+	}
+
+	@Test
+	@Order(5)
+	public void getmemberserror() throws Exception {
+
+		val response = mockMvc.perform(get("/api/members"))
+				.andExpect(status().isUnauthorized())
 				.andDo(print())
 				.andReturn();
 	}

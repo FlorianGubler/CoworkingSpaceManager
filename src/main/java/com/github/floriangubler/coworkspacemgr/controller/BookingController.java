@@ -9,6 +9,8 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -29,6 +31,8 @@ public class BookingController {
 
     private final BookingService bookingService;
     private final MemberService memberService;
+
+    Logger LOG = LoggerFactory.getLogger(getClass());
 
     BookingController(BookingService bookingService, MemberService memberService) {
         this.bookingService = bookingService;
@@ -93,7 +97,8 @@ public class BookingController {
             booking.setStatus(BookingStatus.ORDERED);
         }
         BookingEntity response = bookingService.create(booking);
-        if(!UUID.fromString(authentication.getName()).equals(response.getMember().getId()) || !getRolesSet(authentication).contains("ROLE_ADMIN")){
+
+        if(!(UUID.fromString(authentication.getName()).equals(response.getMember().getId()) && getRolesSet(authentication).contains("ROLE_ADMIN"))){
             response.setMember(null);
         }
         return response;

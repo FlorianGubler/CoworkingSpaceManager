@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.floriangubler.coworkspacemgr.entity.BookingEntity;
 import com.github.floriangubler.coworkspacemgr.entity.BookingEntityReq;
+import com.github.floriangubler.coworkspacemgr.entity.BookingStatus;
 import com.github.floriangubler.coworkspacemgr.entity.BookingTime;
 import com.github.floriangubler.coworkspacemgr.security.JwtServiceHMAC;
 import lombok.val;
@@ -92,6 +93,7 @@ public class CoworkspaceMemberIntegrationTest {
 
 		assertNull(booking.getMember()); //Anonymisiation
 		assertEquals(booking.getTime(), BookingTime.AFTERNOON);
+		assertEquals(booking.getStatus(), BookingStatus.ORDERED);
 	}
 
 	@Test
