@@ -1,5 +1,6 @@
 package com.github.floriangubler.coworkspacemgr.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
@@ -34,6 +35,7 @@ public class BookingEntity implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "member", nullable = false)
+    @JsonIgnore
     @Schema(accessMode = Schema.AccessMode.READ_ONLY)
     private MemberEntity member;
 

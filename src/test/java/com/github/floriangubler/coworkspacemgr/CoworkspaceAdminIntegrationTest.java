@@ -2,9 +2,10 @@ package com.github.floriangubler.coworkspacemgr;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.floriangubler.coworkspacemgr.entity.BookingEntity;
+import com.github.floriangubler.coworkspacemgr.entity.BookingEntityReq;
 import com.github.floriangubler.coworkspacemgr.security.JwtServiceHMAC;
 import lombok.val;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -21,29 +22,36 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class CoworkspaceManagerIntegrationTest {
+public class CoworkspaceAdminIntegrationTest {
 
 	@Autowired
 	private MockMvc mockMvc;
 
 	@Autowired
-	private JwtServiceHMAC jwtService;
+	private static JwtServiceHMAC jwtService;
 
 	@Autowired
 	private ObjectMapper objectMapper;
 
-	@Test
-	public void allGamesShouldBeReturnedFromService() throws Exception {
-		val accessToken = jwtService.createNewJWT(UUID.randomUUID().toString(), "9135f12e-1b66-4ee6-bbae-df37303cc154", "admin", List.of("ADMIN"));
+	private static String accesstoken;
 
-		val response = mockMvc.perform(get("/api/booking").header("Authorization", "Bearer " + accessToken))
+	@BeforeAll
+	public static void jwtauth(){
+		accesstoken = jwtService.createNewJWT(UUID.randomUUID().toString(), "9135f12e-1b66-4ee6-bbae-df37303cc154", "admin", List.of("ADMIN"));
+	}
+
+
+	@Test
+	public void getbookings() throws Exception {
+
+		val response = mockMvc.perform(get("/api/bookings").header("Authorization", "Bearer " + accesstoken))
 				.andExpect(status().isOk())
 				.andDo(print())
 				.andReturn();
 
-		List<BookingEntity> games = objectMapper.readValue(response.getResponse().getContentAsString(), new TypeReference<>() {});
+		List<BookingEntityReq> bookings = objectMapper.readValue(response.getResponse().getContentAsString(), new TypeReference<>() {});
 
-		assertEquals(3, games.size());
+		assertEquals(4, bookings.size());
 	}
 
 }
