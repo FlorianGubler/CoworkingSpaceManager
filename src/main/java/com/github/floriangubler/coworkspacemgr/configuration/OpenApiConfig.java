@@ -14,7 +14,7 @@ public class OpenApiConfig {
     @Bean
     public GroupedOpenApi publicApi() {
         return GroupedOpenApi.builder()
-                .packagesToScan("com.github.floriangubler.controller")
+                .packagesToScan("com.github.floriangubler.coworkspacemgr.controller")
                 .group("coworkspace-api")
                 .build();
     }

@@ -1,38 +1,90 @@
-// Get all games
-GET http://localhost:8080/games
+// Bookings
+//Get all bookings
+GET http://localhost:8080/api/bookings/
 Authorization: Bearer {{jwt}}
 
 ###
 
-// Get one specific game
-GET http://localhost:8080/games/413e2297-b84b-42ef-97ed-16a8a9d1d671
+//Get user bookings
+GET http://localhost:8080/api/bookings/true
 Authorization: Bearer {{jwt}}
 
 ###
 
-// Create a new game
-POST http://localhost:8080/games/
+//Create new booking
+POST http://localhost:8080/api/bookings/
 Authorization: Bearer {{jwt}}
 Content-Type: application/json
 
 {
-  "name": "World of Warcraft",
-  "categoryId": "e1eec954-6ef4-4926-8183-7575af189f2a"
+  "member": {
+    "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "email": "string",
+    "firstname": "string",
+    "lastname": "string",
+    "passwordHash": "string",
+    "isAdmin": true
+  },
+  "date": "2022-09-21T06:31:54.404Z",
+  "time": "MORNING",
+  "status": "ORDERED"
 }
 
 ###
 
-// Update one specific game
-PUT http://localhost:8080/games/413e2297-b84b-42ef-97ed-16a8a9d1d671
+//Update a booking
+PUT http://localhost:8080/api/bookings/413e2297-b84b-42ef-97ed-16a8a9d1d671
 Authorization: Bearer {{jwt}}
+Content-Type: application/json
 
 {
-  "name": "World of Warcraft 2",
-  "categoryId": "e1eec954-6ef4-4926-8183-7575af189f2a"
+  "date": "2022-09-21",
+  "time": "MORNING",
+  "status": "ORDERED"
 }
 
 ###
 
-// Delete one specific and existing game
-DELETE http://localhost:8080/games/413e2297-b84b-42ef-97ed-16a8a9d1d671
+//Delete a booking
+DELETE http://localhost:8080/api/bookings/413e2297-b84b-42ef-97ed-16a8a9d1d671
 Authorization: Bearer {{jwt}}
+
+###
+
+//Member
+//Get members
+GET http://localhost:8080/api/members
+Authorization: Bearer {{jwt}}
+
+###
+
+//Update a member
+POST http://localhost:8080/api/members/register
+Authorization: Bearer {{jwt}}
+Content-Type: application/json
+
+{
+  "email": "test@test.ch",
+  "firstname": "test",
+  "lastname": "test",
+  "password": "test123"
+}
+
+###
+
+//Update a member
+PUT http://localhost:8080/api/members/9135f11e-1b66-4ee6-bbae-df37303cc154
+Authorization: Bearer {{jwt}}
+Content-Type: application/json
+
+{
+  "lastname": "Test"
+}
+
+###
+
+//Delete a member
+DELETE http://localhost:8080/api/members/9135f11e-1b66-4ee6-bbae-df37303cc154
+Authorization: Bearer {{jwt}}
+
+###

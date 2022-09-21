@@ -48,7 +48,7 @@ public class BookingController {
         if(onlymy != null && onlymy){
             return bookingService.findUserBookings(userid);
         } else{
-            return bookingService.findBookings(!userroles.contains(ADMINROLE));
+            return bookingService.findBookings(!userroles.contains(ADMINROLE), userid);
         }
     }
 

@@ -29,13 +29,15 @@ public class BookingService {
         return repository.findAllByMemberId(memberID);
     }
 
-    public List<BookingEntity> findBookings(Boolean anonymise) {
-        log.info("Executing find all User Bookings ...");
+    public List<BookingEntity> findBookings(Boolean anonymise, UUID userid) {
+        log.info("Executing find all Bookings ...");
         List<BookingEntity> result = repository.findAll();
         if(anonymise){
             for(BookingEntity booking : result){
-                booking.setMember(null);
-                booking.setId(null);
+                if(!booking.getMember().getId().equals(userid)) {
+                    booking.setMember(null);
+                    booking.setId(null);
+                }
             }
         }
         return result;

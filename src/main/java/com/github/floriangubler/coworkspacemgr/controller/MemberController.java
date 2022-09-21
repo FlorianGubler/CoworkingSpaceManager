@@ -69,7 +69,7 @@ public class MemberController {
             description = "Delete a Member (Only Admin)",
             security = {@SecurityRequirement(name = "JWT Auth")}
     )
-    @PostMapping("/")
+    @DeleteMapping("/")
     @PreAuthorize("hasRole(ADMINROLE)")
     ResponseEntity<Void> deletemember(
             @Parameter(description = "MemberID", required = true)
