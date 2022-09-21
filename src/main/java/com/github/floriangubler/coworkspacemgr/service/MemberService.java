@@ -1,7 +1,7 @@
 package com.github.floriangubler.coworkspacemgr.service;
 
 import com.github.floriangubler.coworkspacemgr.exception.UserNotFoundException;
-import com.github.floriangubler.coworkspacemgr.model.MemberEntity;
+import com.github.floriangubler.coworkspacemgr.entity.MemberEntity;
 import com.github.floriangubler.coworkspacemgr.repository.MemberRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

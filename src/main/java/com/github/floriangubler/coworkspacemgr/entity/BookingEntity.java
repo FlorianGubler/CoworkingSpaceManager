@@ -1,4 +1,4 @@
-package com.github.floriangubler.coworkspacemgr.model;
+package com.github.floriangubler.coworkspacemgr.entity;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;

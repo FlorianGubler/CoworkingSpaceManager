@@ -1,6 +1,6 @@
 package com.github.floriangubler.coworkspacemgr.repository;
 
-import com.github.floriangubler.coworkspacemgr.model.BookingEntity;
+import com.github.floriangubler.coworkspacemgr.entity.BookingEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

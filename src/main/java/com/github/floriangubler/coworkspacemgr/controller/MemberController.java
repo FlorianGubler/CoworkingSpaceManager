@@ -1,6 +1,6 @@
 package com.github.floriangubler.coworkspacemgr.controller;
 
-import com.github.floriangubler.coworkspacemgr.model.MemberEntity;
+import com.github.floriangubler.coworkspacemgr.entity.MemberEntity;
 import com.github.floriangubler.coworkspacemgr.service.MemberService;
 import com.github.floriangubler.coworkspacemgr.exception.UserNotFoundException;
 import io.swagger.v3.oas.annotations.Operation;

@@ -1,9 +1,9 @@
 package com.github.floriangubler.coworkspacemgr.controller;
 
 import com.github.floriangubler.coworkspacemgr.exception.BookingNotFoundException;
-import com.github.floriangubler.coworkspacemgr.model.BookingEntity;
+import com.github.floriangubler.coworkspacemgr.entity.BookingEntity;
 import com.github.floriangubler.coworkspacemgr.service.BookingService;
-import com.github.floriangubler.coworkspacemgr.model.BookingStatus;
+import com.github.floriangubler.coworkspacemgr.entity.BookingStatus;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;

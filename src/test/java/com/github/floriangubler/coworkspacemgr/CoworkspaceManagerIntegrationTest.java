@@ -2,7 +2,7 @@ package com.github.floriangubler.coworkspacemgr;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.floriangubler.coworkspacemgr.model.BookingEntity;
+import com.github.floriangubler.coworkspacemgr.entity.BookingEntity;
 import com.github.floriangubler.coworkspacemgr.security.JwtServiceHMAC;
 import lombok.val;
 import org.junit.jupiter.api.Test;

@@ -1,4 +1,4 @@
-package com.github.floriangubler.coworkspacemgr.model;
+package com.github.floriangubler.coworkspacemgr.entity;
 
 public enum BookingStatus {
     ORDERED,
