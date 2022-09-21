@@ -46,9 +46,14 @@ public class MemberService {
     }
     public MemberEntity update(MemberEntity member, UUID memberid){
         if(repository.findById(memberid).isPresent()){
-            log.info("Executing update user with id " + memberid + " ...");
-            member.setId(memberid);
-            return repository.save(member);
+            if(repository.findByEmail(member.getEmail()).isEmpty()){
+                log.info("Executing update user with id " + memberid + " ...");
+                member.setId(memberid);
+                return repository.save(member);
+            } else{
+                throw new UserAlreadyExistsException("Member with email '" + member.getEmail() + "' already exists");
+            }
+
         } else{
             throw new UserNotFoundException("Member with given id not found");
         }

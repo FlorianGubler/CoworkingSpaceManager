@@ -29,7 +29,6 @@ public class BookingController {
 
     private final BookingService bookingService;
     private final MemberService memberService;
-    private final static String ADMINROLE = "ROLE_ADMIN";
 
     BookingController(BookingService bookingService, MemberService memberService) {
         this.bookingService = bookingService;
@@ -44,7 +43,7 @@ public class BookingController {
     @GetMapping("/{onlymy}")
     List<BookingEntity> loadUserBookings(
             @Parameter(description = "Onlymy", required = false)
-            @RequestParam(name = "onlymy", required = false)
+            @PathVariable(name = "onlymy", required = false)
             Boolean onlymy,
             Authentication authentication) {
         UUID userid = UUID.fromString(authentication.getName());
@@ -52,7 +51,7 @@ public class BookingController {
         if(onlymy != null && onlymy){
             return bookingService.findUserBookings(userid);
         } else{
-            return bookingService.findBookings(!userroles.contains(ADMINROLE), userid);
+            return bookingService.findBookings(!userroles.contains("ROLE_ADMIN"), userid);
         }
     }
 
@@ -64,7 +63,7 @@ public class BookingController {
     @DeleteMapping("/{bookingid}")
     ResponseEntity<Void> deletebooking(
             @Parameter(description = "BookingID", required = true)
-            @RequestParam(name = "bookingid", required = true)
+            @PathVariable(name = "bookingid", required = true)
             UUID bookingid,
             Authentication authentication) {try{
             bookingService.delete(bookingid, authentication);
@@ -81,14 +80,14 @@ public class BookingController {
             description = "Create a new Booking (for users with status OPENED, for Admins status ACCEPTED)",
             security = {@SecurityRequirement(name = "JWT Auth")}
     )
-    @PostMapping("/")
+    @PostMapping
     BookingEntity createbooking(
             @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Booking", required = true)
             @RequestBody(required = true)
             BookingEntity booking,
             Authentication authentication) {
         booking.setMember(memberService.getMember(booking.getMemberId()));
-        if(getRolesSet(authentication).contains(ADMINROLE)){
+        if(getRolesSet(authentication).contains("ROLE_ADMIN")){
             booking.setStatus(BookingStatus.APPROVED);
         } else{
             booking.setStatus(BookingStatus.ORDERED);
@@ -102,13 +101,13 @@ public class BookingController {
             security = {@SecurityRequirement(name = "JWT Auth")}
     )
     @PutMapping("/{bookingid}")
-    @PreAuthorize("hasRole(ADMINROLE)")
+    @PreAuthorize("hasRole('ADMIN')")
     ResponseEntity<BookingEntity> updatebooking(
             @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Booking Update", required = true)
             @RequestBody(required = true)
             BookingEntity booking,
             @Parameter(description = "BookingID", required = true)
-            @RequestParam(name="bookingid", required = true)
+            @PathVariable(name="bookingid", required = true)
             UUID bookingid,
             Authentication authentication) {
         try{

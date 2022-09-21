@@ -12,6 +12,11 @@ Content-Type: application/json
 
 ###
 
+//Get Token from Member
+POST http://localhost:8080/api/auth/token?grant_type=password&email=admin%40test.ch&password=password1234
+
+###
+
 //Get members
 GET http://localhost:8080/api/members
 Authorization: Bearer {{jwt}}
@@ -24,6 +29,8 @@ Authorization: Bearer {{jwt}}
 Content-Type: application/json
 
 {
+  "email": "test123@test.ch",
+  "firstname": "Test",
   "lastname": "Test"
 }
 

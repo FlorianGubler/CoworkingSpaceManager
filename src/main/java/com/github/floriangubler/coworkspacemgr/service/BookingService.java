@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 public class BookingService {
 
     private final BookingRepository repository;
-    private final String ADMINROLE = "ROLE_ADMIN";
+    private final String ADMINROLE = "ADMIN";
 
     BookingService(BookingRepository repository) {
         this.repository = repository;

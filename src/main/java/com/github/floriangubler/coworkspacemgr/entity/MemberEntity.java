@@ -2,6 +2,7 @@ package com.github.floriangubler.coworkspacemgr.entity;
 
 import lombok.*;
 import org.hibernate.Hibernate;
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
@@ -20,6 +21,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Entity(name = "MEMBER")
+@DynamicUpdate
 public class MemberEntity implements Serializable {
 
     @Id
@@ -30,20 +32,16 @@ public class MemberEntity implements Serializable {
     UUID id = UUID.randomUUID();
 
     @Column(name = "email", nullable = false)
-    @NotNull
     String email;
 
     @Column(name = "firstname", nullable = false)
-    @NotNull
     String firstname;
 
     @Column(name = "lastname", nullable = false)
-    @NotNull
     String lastname;
 
     @Column(name = "password", nullable = false)
-    @NotNull
-    String password;
+    String passwordHash;
 
     @Column(name = "is_admin", nullable = false)
     Boolean isAdmin = false;
@@ -55,7 +53,7 @@ public class MemberEntity implements Serializable {
         MemberEntity that = (MemberEntity) o;
         return id != null && Objects.equals(id, that.id) &&
                 email != null && Objects.equals(email, that.email) &&
-                password != null && Objects.equals(password, that.password);
+                passwordHash != null && Objects.equals(passwordHash, that.passwordHash);
     }
 
     @Override

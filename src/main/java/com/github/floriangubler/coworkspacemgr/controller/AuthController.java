@@ -1,5 +1,6 @@
 package com.github.floriangubler.coworkspacemgr.controller;
 
+import com.github.floriangubler.coworkspacemgr.entity.RegisterDTO;
 import com.github.floriangubler.coworkspacemgr.exception.UserAlreadyExistsException;
 import com.github.floriangubler.coworkspacemgr.service.MemberService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -67,7 +68,7 @@ public class AuthController {
                     throw new IllegalArgumentException("Username or password wrong");
                 }
 
-                if (!BCrypt.checkpw(password, optionalMember.get().getPassword())) {
+                if (!BCrypt.checkpw(password, optionalMember.get().getPasswordHash())) {
                     throw new IllegalArgumentException("Username or password wrong");
                 }
 
@@ -120,15 +121,14 @@ public class AuthController {
     public ResponseEntity<TokenResponse> register(
             @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Member", required = true)
             @RequestBody(required = true)
-            MemberEntity member
+            RegisterDTO registerdto
     ) throws GeneralSecurityException, IOException {
-        //member.getPassword() isn't hashed yet
-        String passwordHash = BCrypt.hashpw(member.getPassword(), BCrypt.gensalt());
+        String passwordHash = BCrypt.hashpw(registerdto.getPassword(), BCrypt.gensalt());
         try{
-            memberService.create(new MemberEntity(UUID.randomUUID(), member.getEmail(), member.getFirstname(), member.getLastname(), passwordHash, false));
+            memberService.create(new MemberEntity(UUID.randomUUID(), registerdto.getEmail(), registerdto.getFirstname(), registerdto.getLastname(), passwordHash, false));
         } catch(UserAlreadyExistsException e){
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
-        return new ResponseEntity<>(getToken("password", "", member.getEmail(), member.getPassword()), HttpStatus.OK);
+        return new ResponseEntity<>(getToken("password", "", registerdto.getEmail(), registerdto.getPassword()), HttpStatus.OK);
     }
 }

@@ -1,6 +1,7 @@
 package com.github.floriangubler.coworkspacemgr.controller;
 
 import com.github.floriangubler.coworkspacemgr.entity.MemberEntity;
+import com.github.floriangubler.coworkspacemgr.exception.UserAlreadyExistsException;
 import com.github.floriangubler.coworkspacemgr.service.MemberService;
 import com.github.floriangubler.coworkspacemgr.exception.UserNotFoundException;
 import io.swagger.v3.oas.annotations.Operation;
@@ -25,7 +26,6 @@ import java.util.stream.Collectors;
 public class MemberController {
 
     private final MemberService memberService;
-    private final static String ADMINROLE = "ROLE_ADMIN";
 
     MemberController(MemberService memberService) {
         this.memberService = memberService;
@@ -36,8 +36,8 @@ public class MemberController {
             description = "Get all Members (Only Admin)",
             security = {@SecurityRequirement(name = "JWT Auth")}
     )
-    @GetMapping("/")
-    @PreAuthorize("hasRole(ADMINROLE)")
+    @GetMapping
+    @PreAuthorize("hasRole('ADMIN')")
     List<MemberEntity> loadUserBookings() {
         return memberService.getMembers();
     }
@@ -48,18 +48,20 @@ public class MemberController {
             security = {@SecurityRequirement(name = "JWT Auth")}
     )
     @PutMapping("/{memberid}")
-    @PreAuthorize("hasRole(ADMINROLE)")
+    @PreAuthorize("hasRole('ADMIN')")
     ResponseEntity<Void> updatemember (
             @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Member Update", required = true)
             @RequestBody(required = true)
             MemberEntity member,
             @Parameter(description = "MemberID", required = true)
-            @RequestParam(name="memberid", required = true)
+            @PathVariable(name="memberid", required = true)
             UUID memberid) {
         try{
             memberService.update(member, memberid);
         } catch(UserNotFoundException e){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (UserAlreadyExistsException e){
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
@@ -69,8 +71,8 @@ public class MemberController {
             description = "Delete a Member (Only Admin)",
             security = {@SecurityRequirement(name = "JWT Auth")}
     )
-    @DeleteMapping("/")
-    @PreAuthorize("hasRole(ADMINROLE)")
+    @DeleteMapping("/{memberid}")
+    @PreAuthorize("hasRole('ADMIN')")
     ResponseEntity<Void> deletemember(
             @Parameter(description = "MemberID", required = true)
             @RequestParam(name = "memberid", required = true)
