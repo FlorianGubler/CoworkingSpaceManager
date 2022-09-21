@@ -1,9 +1,9 @@
-package com.github.floriangubler.configuration;
+package com.github.floriangubler.coworkspacemgr.configuration;
 
-import com.github.floriangubler.security.JwtAuthenticationEntryPoint;
-import com.github.floriangubler.security.JwtAuthenticationFilter;
-import com.github.floriangubler.security.JwtServiceHMAC;
-import com.github.floriangubler.repository.MemberRepository;
+import com.github.floriangubler.coworkspacemgr.security.JwtAuthenticationEntryPoint;
+import com.github.floriangubler.coworkspacemgr.security.JwtAuthenticationFilter;
+import com.github.floriangubler.coworkspacemgr.security.JwtServiceHMAC;
+import com.github.floriangubler.coworkspacemgr.repository.MemberRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;

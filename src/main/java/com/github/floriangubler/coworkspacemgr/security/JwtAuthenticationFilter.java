@@ -1,8 +1,8 @@
-package com.github.floriangubler.security;
+package com.github.floriangubler.coworkspacemgr.security;
 
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.github.floriangubler.repository.MemberRepository;
+import com.github.floriangubler.coworkspacemgr.repository.MemberRepository;
 import lombok.val;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;

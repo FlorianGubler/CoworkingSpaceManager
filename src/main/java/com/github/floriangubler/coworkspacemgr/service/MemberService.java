@@ -1,20 +1,13 @@
-package com.github.floriangubler.service;
+package com.github.floriangubler.coworkspacemgr.service;
 
-import com.github.floriangubler.exception.BookingNotFoundException;
-import com.github.floriangubler.exception.UserNotFoundException;
-import com.github.floriangubler.model.BookingEntity;
-import com.github.floriangubler.model.MemberEntity;
-import com.github.floriangubler.repository.BookingRepository;
-import com.github.floriangubler.repository.MemberRepository;
+import com.github.floriangubler.coworkspacemgr.exception.UserNotFoundException;
+import com.github.floriangubler.coworkspacemgr.model.MemberEntity;
+import com.github.floriangubler.coworkspacemgr.repository.MemberRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 @Slf4j

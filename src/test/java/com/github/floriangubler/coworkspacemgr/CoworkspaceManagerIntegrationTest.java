@@ -1,9 +1,9 @@
-package com.github.floriangubler;
+package com.github.floriangubler.coworkspacemgr;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.floriangubler.model.BookingEntity;
-import com.github.floriangubler.security.JwtServiceHMAC;
+import com.github.floriangubler.coworkspacemgr.model.BookingEntity;
+import com.github.floriangubler.coworkspacemgr.security.JwtServiceHMAC;
 import lombok.val;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +11,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 

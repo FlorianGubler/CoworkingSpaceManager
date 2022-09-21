@@ -1,4 +1,4 @@
-package com.github.floriangubler.security;
+package com.github.floriangubler.coworkspacemgr.security;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -7,8 +7,8 @@ import com.auth0.jwt.exceptions.InvalidClaimException;
 import com.auth0.jwt.exceptions.SignatureVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.github.floriangubler.model.MemberEntity;
-import com.github.floriangubler.repository.MemberRepository;
+import com.github.floriangubler.coworkspacemgr.model.MemberEntity;
+import com.github.floriangubler.coworkspacemgr.repository.MemberRepository;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

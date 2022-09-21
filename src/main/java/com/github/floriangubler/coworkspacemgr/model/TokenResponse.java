@@ -1,4 +1,4 @@
-package com.github.floriangubler.model;
+package com.github.floriangubler.coworkspacemgr.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;

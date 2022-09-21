@@ -1,4 +1,4 @@
-package com.github.floriangubler.configuration;
+package com.github.floriangubler.coworkspacemgr.configuration;
 
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;

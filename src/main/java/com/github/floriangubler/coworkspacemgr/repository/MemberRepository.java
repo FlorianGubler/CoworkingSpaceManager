@@ -1,7 +1,6 @@
-package com.github.floriangubler.repository;
+package com.github.floriangubler.coworkspacemgr.repository;
 
-import com.github.floriangubler.model.BookingEntity;
-import com.github.floriangubler.model.MemberEntity;
+import com.github.floriangubler.coworkspacemgr.model.MemberEntity;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;

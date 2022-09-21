@@ -11,7 +11,7 @@
 	</parent>
 
 	<groupId>com.github.floriangubler</groupId>
-	<artifactId>coworkspace-manager</artifactId>
+	<artifactId>coworkspacemgr</artifactId>
 	<version>1.0.0</version>
 	<name>coworkspace-manager</name>
 	<description>M223 Coworkspace Abschlussprojekt</description>

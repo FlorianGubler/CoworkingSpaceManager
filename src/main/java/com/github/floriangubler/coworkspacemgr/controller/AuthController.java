@@ -1,12 +1,12 @@
-package com.github.floriangubler.controller;
+package com.github.floriangubler.coworkspacemgr.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
-import com.github.floriangubler.model.MemberEntity;
-import com.github.floriangubler.model.TokenResponse;
-import com.github.floriangubler.repository.MemberRepository;
-import com.github.floriangubler.security.JwtServiceHMAC;
+import com.github.floriangubler.coworkspacemgr.model.MemberEntity;
+import com.github.floriangubler.coworkspacemgr.model.TokenResponse;
+import com.github.floriangubler.coworkspacemgr.repository.MemberRepository;
+import com.github.floriangubler.coworkspacemgr.security.JwtServiceHMAC;
 import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;

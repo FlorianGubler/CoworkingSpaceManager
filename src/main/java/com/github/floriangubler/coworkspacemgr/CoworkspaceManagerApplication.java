@@ -1,4 +1,4 @@
-package com.github.floriangubler;
+package com.github.floriangubler.coworkspacemgr;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

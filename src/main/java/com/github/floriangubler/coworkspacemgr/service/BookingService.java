@@ -1,8 +1,8 @@
-package com.github.floriangubler.service;
+package com.github.floriangubler.coworkspacemgr.service;
 
-import com.github.floriangubler.exception.BookingNotFoundException;
-import com.github.floriangubler.model.BookingEntity;
-import com.github.floriangubler.repository.BookingRepository;
+import com.github.floriangubler.coworkspacemgr.exception.BookingNotFoundException;
+import com.github.floriangubler.coworkspacemgr.model.BookingEntity;
+import com.github.floriangubler.coworkspacemgr.repository.BookingRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;

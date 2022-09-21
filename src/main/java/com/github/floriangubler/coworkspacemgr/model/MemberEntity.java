@@ -1,4 +1,4 @@
-package com.github.floriangubler.model;
+package com.github.floriangubler.coworkspacemgr.model;
 
 import lombok.*;
 import org.hibernate.Hibernate;
