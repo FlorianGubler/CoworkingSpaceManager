@@ -45,13 +45,13 @@ Authorization: Bearer {{jwt}}
 
 // Bookings
 //Get all bookings
-GET http://localhost:8080/api/bookings/
+GET http://localhost:8080/api/bookings
 Authorization: Bearer {{jwt}}
 
 ###
 
 //Get user bookings
-GET http://localhost:8080/api/bookings/true
+GET http://localhost:8080/api/bookings/?onlymy=true
 Authorization: Bearer {{jwt}}
 
 ###
@@ -62,14 +62,7 @@ Authorization: Bearer {{jwt}}
 Content-Type: application/json
 
 {
-  "member": {
-    "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-    "email": "string",
-    "firstname": "string",
-    "lastname": "string",
-    "password": "string",
-    "isAdmin": true
-  },
+  "memberId": "9135f12e-1b66-4ee6-bbae-df37303cc154",
   "date": "2022-09-21T06:31:54.404Z",
   "time": "MORNING",
   "status": "ORDERED"
@@ -83,6 +76,7 @@ Authorization: Bearer {{jwt}}
 Content-Type: application/json
 
 {
+  "memberId": "9135f12e-1b66-4ee6-bbae-df37303cc154",
   "date": "2022-09-21",
   "time": "MORNING",
   "status": "ORDERED"

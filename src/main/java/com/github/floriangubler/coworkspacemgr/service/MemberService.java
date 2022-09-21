@@ -3,9 +3,11 @@ package com.github.floriangubler.coworkspacemgr.service;
 import com.github.floriangubler.coworkspacemgr.exception.UserAlreadyExistsException;
 import com.github.floriangubler.coworkspacemgr.exception.UserNotFoundException;
 import com.github.floriangubler.coworkspacemgr.entity.MemberEntity;
+import com.github.floriangubler.coworkspacemgr.repository.BookingRepository;
 import com.github.floriangubler.coworkspacemgr.repository.MemberRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,8 +19,11 @@ public class MemberService {
 
     private final MemberRepository repository;
 
-    MemberService(MemberRepository repository) {
+    private final BookingRepository bookingRepository;
+
+    MemberService(MemberRepository repository, BookingRepository bookingRepository) {
         this.repository = repository;
+        this.bookingRepository = bookingRepository;
     }
 
     public List<MemberEntity> getMembers(){
@@ -59,8 +64,10 @@ public class MemberService {
         }
     }
 
+    @Transactional
     public void delete(UUID memberid){
         if(repository.findById(memberid).isPresent()){
+            bookingRepository.deleteAllByMemberId(memberid);
             log.info("Executing delete user with id " + memberid + " ...");
             repository.deleteById(memberid);
         } else{

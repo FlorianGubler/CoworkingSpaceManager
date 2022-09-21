@@ -40,10 +40,10 @@ public class BookingController {
             description = "Get all bookings (for users anonymised) or only bookings of logged-in User",
             security = {@SecurityRequirement(name = "JWT Auth")}
     )
-    @GetMapping("/{onlymy}")
+    @GetMapping
     List<BookingEntity> loadUserBookings(
             @Parameter(description = "Onlymy", required = false)
-            @PathVariable(name = "onlymy", required = false)
+            @RequestParam(name = "onlymy", required = false)
             Boolean onlymy,
             Authentication authentication) {
         UUID userid = UUID.fromString(authentication.getName());
@@ -92,7 +92,11 @@ public class BookingController {
         } else{
             booking.setStatus(BookingStatus.ORDERED);
         }
-        return bookingService.create(booking);
+        BookingEntity response = bookingService.create(booking);
+        if(!UUID.fromString(authentication.getName()).equals(response.getMember().getId()) || !getRolesSet(authentication).contains("ROLE_ADMIN")){
+            response.setMember(null);
+        }
+        return response;
     }
 
     @Operation(
@@ -110,6 +114,7 @@ public class BookingController {
             @PathVariable(name="bookingid", required = true)
             UUID bookingid,
             Authentication authentication) {
+        booking.setMember(memberService.getMember(booking.getMemberId()));
         try{
             return new ResponseEntity<>(bookingService.update(booking, bookingid), HttpStatus.OK);
         } catch(BookingNotFoundException e){
