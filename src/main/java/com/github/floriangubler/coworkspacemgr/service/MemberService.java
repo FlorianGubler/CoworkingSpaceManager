@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -23,6 +24,16 @@ public class MemberService {
     public List<MemberEntity> getMembers(){
         log.info("Executing find all Members ...");
         return repository.findAll();
+    }
+
+    public MemberEntity getMember(UUID memberid){
+        log.info("Executing find member with id " + memberid + " ...");
+        Optional<MemberEntity> member = repository.findById(memberid);
+        if(member.isEmpty()){
+            throw new UserNotFoundException("User with id " + memberid + " not found...");
+        } else{
+            return member.get();
+        }
     }
 
     public MemberEntity create(MemberEntity member){

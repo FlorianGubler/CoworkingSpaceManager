@@ -4,6 +4,7 @@ import com.github.floriangubler.coworkspacemgr.exception.BookingNotFoundExceptio
 import com.github.floriangubler.coworkspacemgr.entity.BookingEntity;
 import com.github.floriangubler.coworkspacemgr.service.BookingService;
 import com.github.floriangubler.coworkspacemgr.entity.BookingStatus;
+import com.github.floriangubler.coworkspacemgr.service.MemberService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -27,10 +28,12 @@ import java.util.stream.Collectors;
 public class BookingController {
 
     private final BookingService bookingService;
+    private final MemberService memberService;
     private final static String ADMINROLE = "ROLE_ADMIN";
 
-    BookingController(BookingService bookingService) {
+    BookingController(BookingService bookingService, MemberService memberService) {
         this.bookingService = bookingService;
+        this.memberService = memberService;
     }
 
     @Operation(
@@ -80,10 +83,11 @@ public class BookingController {
     )
     @PostMapping("/")
     BookingEntity createbooking(
-            @Parameter(description = "BookingID", required = true)
+            @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Booking", required = true)
             @RequestBody(required = true)
             BookingEntity booking,
             Authentication authentication) {
+        booking.setMember(memberService.getMember(booking.getMemberId()));
         if(getRolesSet(authentication).contains(ADMINROLE)){
             booking.setStatus(BookingStatus.APPROVED);
         } else{
