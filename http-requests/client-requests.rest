@@ -31,7 +31,8 @@ Content-Type: application/json
 {
   "email": "test123@test.ch",
   "firstname": "Test",
-  "lastname": "Test"
+  "lastname": "Test",
+  "password": "password1234"
 }
 
 ###

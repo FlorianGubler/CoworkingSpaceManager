@@ -1,6 +1,6 @@
 package com.github.floriangubler.coworkspacemgr.controller;
 
-import com.github.floriangubler.coworkspacemgr.entity.RegisterDTO;
+import com.github.floriangubler.coworkspacemgr.entity.MemberDTO;
 import com.github.floriangubler.coworkspacemgr.exception.UserAlreadyExistsException;
 import com.github.floriangubler.coworkspacemgr.service.MemberService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -121,7 +121,7 @@ public class AuthController {
     public ResponseEntity<TokenResponse> register(
             @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Member", required = true)
             @RequestBody(required = true)
-            RegisterDTO registerdto
+            MemberDTO registerdto
     ) throws GeneralSecurityException, IOException {
         String passwordHash = BCrypt.hashpw(registerdto.getPassword(), BCrypt.gensalt());
         try{

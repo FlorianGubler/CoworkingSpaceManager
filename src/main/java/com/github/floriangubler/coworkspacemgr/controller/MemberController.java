@@ -1,6 +1,7 @@
 package com.github.floriangubler.coworkspacemgr.controller;
 
 import com.github.floriangubler.coworkspacemgr.entity.MemberEntity;
+import com.github.floriangubler.coworkspacemgr.entity.MemberDTO;
 import com.github.floriangubler.coworkspacemgr.exception.UserAlreadyExistsException;
 import com.github.floriangubler.coworkspacemgr.service.MemberService;
 import com.github.floriangubler.coworkspacemgr.exception.UserNotFoundException;
@@ -11,14 +12,11 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/members")
@@ -52,12 +50,13 @@ public class MemberController {
     ResponseEntity<Void> updatemember (
             @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Member Update", required = true)
             @RequestBody(required = true)
-            MemberEntity member,
+            MemberDTO memberDTO,
             @Parameter(description = "MemberID", required = true)
             @PathVariable(name="memberid", required = true)
             UUID memberid) {
         try{
-            memberService.update(member, memberid);
+            String passwordHash = BCrypt.hashpw(memberDTO.getPassword(), BCrypt.gensalt());
+            memberService.update(new MemberEntity(UUID.randomUUID(), memberDTO.getEmail(), memberDTO.getFirstname(), memberDTO.getLastname(), passwordHash, false), memberid);
         } catch(UserNotFoundException e){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (UserAlreadyExistsException e){
@@ -75,7 +74,7 @@ public class MemberController {
     @PreAuthorize("hasRole('ADMIN')")
     ResponseEntity<Void> deletemember(
             @Parameter(description = "MemberID", required = true)
-            @RequestParam(name = "memberid", required = true)
+            @PathVariable(name = "memberid", required = true)
             UUID memberid) {
             try{
                 memberService.delete(memberid);
